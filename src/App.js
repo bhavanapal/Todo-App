@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from 'react'
+import Todolists from './Components/Todolists'
+import  TodoMainList from './Components/TodoMainList'
+ import './Components/Todo.css'
+
 
 function App() {
+const[addValue, setAddValue] = useState([]);
+  const handleAddValue =(todoValue)=>{
+    if(todoValue !== "")
+    setAddValue([...addValue,todoValue])
+  }
+
+  const handleRemoveValue=(key)=>{
+    let newListItem = [...addValue];
+    newListItem.splice(key,1);
+    setAddValue([...newListItem])
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+ <div className = "main-container text-white">
+   <h1 style={{textAlign:'center'}}>TODO LIST</h1>
+    <hr/>
+   <Todolists  handleAddValue = {handleAddValue} />
+   {addValue.map((listitem,id)=>(
+     < TodoMainList list= {listitem} key={id}  index={id} handleRemove={handleRemoveValue} />
+   ) 
+  )}
+  </div> 
   );
 }
 
